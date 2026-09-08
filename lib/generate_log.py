@@ -1,27 +1,20 @@
-import requests
 from datetime import datetime
-import os
 
 def generate_log(data):
-     if not isinstance(data, list):
-         raise ValueError("Input data must be a list.")
+    # 1. Validate input type - must be ValueError
+    if not isinstance(data, list):
+        raise ValueError("Input must be a list")
 
-     log_data = ["User logged in", "User updated profile", "Report exported"]
-     filename = f"log_{datetime.now().strftime('%Y%m%d')}.txt"
+    # 2. Filename pattern log_YYYYMMDD.txt
+    filename = f"log_{datetime.now().strftime('%Y%m%d')}.txt"
 
-     with open(filename, 'w') as file:
-        for entry in log_data:
+    # 3. Write - creates file even if list is empty
+    # 4. Content exactly matches input list
+    with open(filename, "w") as file:
+        for entry in data:
             file.write(f"{entry}\n")
 
-        print(f"Log written to {filename}")
-        return filename
-
-#fetch data using package instaled
-def fetch_data():
-      response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
-      if response.status_code == 200:
-          return response.json()
-      return {}
-if __name__ == "__main__":
-    post = fetch_data()
-    print("Fetched Post Title:", post.get("title", "No title found"))
+    # 5. Print confirmation including filename
+    print(f"Log written to {filename}")
+    
+    return filename
